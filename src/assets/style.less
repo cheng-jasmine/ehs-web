@@ -1,0 +1,133 @@
+/*************** 公共样式  start********************/
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+dl,
+dd,
+ul,
+li,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+//消除默认点击蓝色边框效果
+button,
+span {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+// 滚动条样式
+.temp-scrollBar {
+    height: 100%;
+    width: 100%;
+
+    .el-scrollbar__wrap {
+        overflow-x: hidden;
+    }
+}
+
+
+.amap-info-content {
+    width: 13vw;
+    height: 14vh;
+    padding: 1vh 1vw;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: Roboto;
+    border: 1px solid #FE5247;
+    background-color: rgba(0, 0, 0, .6);
+    overflow: hidden;
+
+    .amap-info-close {
+        right: 7px !important;
+    }
+
+    .title {
+        color: rgba(255, 255, 255, 100);
+        font-size: 16px;
+        font-family: SourceHanSansSC-regular;
+    }
+
+    p {
+        display: flex;
+        color: rgba(161, 166, 167, 100);
+        font-size: 14px;
+        font-family: OPPOSans-regular;
+        margin: 1vh;
+
+        img {
+            width: 16px;
+            height: 16px;
+            vertical-align: middle;
+            margin: 2px 6px 0 0;
+        }
+
+        span {
+            margin-right: 10px;
+        }
+
+        span:last-child {
+            color: #32FF33;
+        }
+    }
+
+    p.company {
+        span {
+            width: 90px;
+            height: 22px;
+            line-height: 20px;
+            border-radius: 24px;
+            background-color: rgba(254, 82, 71, 100);
+            text-align: center;
+            color: #fff;
+        }
+    }
+
+    p.type {
+        span {
+            color: #FF4D41;
+        }
+    }
+}
+
+.amap-marker-label {
+    border: 0 none;
+    background-color: transparent;
+    white-space: nowrap;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .3);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+    font-family: SourceHanSansSC-regular;
+}
+
+.amap-overlay-text-container {
+    white-space: pre-wrap;
+}
