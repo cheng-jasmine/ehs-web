@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Page :total="total" :current="page" @pageChange="pageChange"></Page>
+    <!-- <Page :total="total" :current="page" @pageChange="pageChange"></Page> -->
     <router-view></router-view>
   </div>
 </template>

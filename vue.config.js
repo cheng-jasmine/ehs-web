@@ -42,7 +42,7 @@ module.exports = {
   // },
 
   devServer: {
-    port: 9090, // 端口
+    port: 8080, // 端口
     proxy: {
       // 设置代理
       "/api": {
