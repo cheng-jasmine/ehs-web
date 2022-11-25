@@ -27,6 +27,7 @@
       <div id="line"></div>
       <div class="title">XXX排口饼状图</div>
       <div id="pie"></div>
+      <div class="weather"></div>
     </div>
     <div class="right">
       <el-input
@@ -34,29 +35,51 @@
         v-model="search"
         placeholder="搜索你想要的内容"
       ></el-input>
+      <div class="title">预警信息</div>
       <div class="yujing">
-        <div class="title">预警信息</div>
-        <div class="content">
-          <div class="text">
+        <div class="text">
+          <span
+            class="state"
+            :style="{
+              color: state == 3 ? '#E65656' : '',
+            }"
+            >【三级预警】</span
+          >
+          2022-08-01 xx区域xxx排口废水COD超标
+          <span>+18.5%</span>
+          监测值达到
+          <span>118.5(100)</span>
+          ，预警信息已发送至黄晓明、赵薇。
+        </div>
+        <div class="tip">任务流：监测预警</div>
+        <div class="steps">
+          <div class="step" v-for="(item, index) in steps" :key="index">
+            <div v-if="index !== steps.length - 1" class="line"></div>
+            <img
+              class="icon"
+              v-if="index < step"
+              src="@/assets/img/step_over.png"
+              alt="step_over"
+            />
+            <div v-else-if="index == step" class="icon current">
+              <div></div>
+            </div>
+            <div v-else class="icon undone"><div></div></div>
             <span
-              class="state"
               :style="{
-                color: state == 3 ? '#E65656' : '',
+                color: index == step ? '#fc8452' : '',
               }"
-              >【三级预警】</span
+              >{{ item }}</span
             >
-            2022-08-01 xx区域xxx排口废水COD超标
-            <span>+18.5%</span>
-            监测值达到
-            <span>118.5(100)</span>
-            ，预警信息已发送至黄晓明、赵薇。
           </div>
-          <div class="tip">任务流：监测预警</div>
-          <div class="step"></div>
+        </div>
+        <div class="person">
+          <span style="color: #666">处理人员：</span><span>黄晓明</span>
         </div>
       </div>
     </div>
-    <img class="footer" src="@/assets/img/footer_bg.png" alt="" />
+
+    <img class="footer" src="@/assets/img/footer_bg.png" alt="footer_bg" />
   </div>
 </template>
 
@@ -73,10 +96,26 @@ export default {
         },
       ],
       position: 0,
-      address: address,
+      pieData: [
+        { value: 15, name: "氨氮" },
+        { value: 100, name: "cod" },
+        { value: 20, name: "总磷" },
+        { value: 20, name: "总氮" },
+      ],
+      address: address, // 地图标点
       search: "",
 
       state: 3,
+      step: 3, //当前流程
+      steps: [
+        "三级预警",
+        "短信通知",
+        "预警响应任务分配",
+        "任务接收",
+        "现场处理",
+        "上传报告",
+        "处理完成",
+      ],
     };
   },
   create() {},
@@ -113,7 +152,9 @@ export default {
       // };
       // // 绑定事件
       // this.map.on("click", clickHandler);
+      //加载天气查询插件
     },
+    // 添加标记点
     addMarker(position) {
       const marker = new AMap.Marker({
         icon: this.address,
@@ -127,16 +168,15 @@ export default {
         this.map.clearInfoWindow();
       };
       const content = `
-        <div class="infoContent">
-          <div>
-            <span>XXX排口</span>
-            <span id="close" onclick="WindowClose()">x</span>
+        <div class="infoContent" onclick="WindowClose()">
+          <div class="title">
+            XXX排口
           </div>
           <ul class="info">
-            <li>cod: XXX</li>
-            <li>cod: XXX</li>
-            <li>cod: XXX</li>
-            <li>cod: XXX</li>
+            <li>cod：100</li>
+            <li>氨氮：15</li>
+            <li>总磷：20 </li>
+            <li>总氮：20</li>
           </ul>
         </div>`;
       this.drawInfo(content, marker, this.map);
@@ -147,7 +187,7 @@ export default {
         //创建信息窗体
         isCustom: true, //使用自定窗体
         content: contents, //信息窗体的内容可以是任意html片段
-        offset: new AMap.Pixel(200, 220),
+        offset: new AMap.Pixel(130, 200),
       });
       let onMarkerClick = function (e) {
         infoWindow.open(map, e.target.getPosition()); //打开信息窗体
@@ -164,7 +204,7 @@ export default {
         },
         grid: {
           left: "0%",
-          right: "0%",
+          right: "3%",
           bottom: "20%",
           containLabel: true,
         },
@@ -270,12 +310,6 @@ export default {
     },
     createPie() {
       const pie = this.$echarts.init(document.getElementById("pie"));
-      const dataCake = [
-        { value: 15, name: "氨氮" },
-        { value: 100, name: "cod" },
-        { value: 20, name: "总磷" },
-        { value: 20, name: "总氮" },
-      ];
       pie.setOption({
         tooltip: {
           trigger: "item",
@@ -296,22 +330,22 @@ export default {
         },
         legend: {
           orient: "vertical",
-          right: "9%",
-          top: "18%",
-          itemWidth: 12,
-          itemHeight: 12,
+          right: "12%",
+          top: "22%",
+          itemWidth: 8,
+          itemHeight: 8,
           textStyle: {
             color: "#fff", // 图例文字颜色
             fontSize: 14,
           },
           // itemGap设置各个item之间的间隔，单位px，默认为10，横向布局时为水平间隔，纵向布局时为纵向间隔
-          itemGap: 30,
-          data: ["氨氮", "cod", "总磷", "总氮"],
-          formatter: function (name) {
+          itemGap: 25,
+
+          formatter: (name) => {
             let target;
-            for (let i = 0; i < dataCake.length; i++) {
-              if (dataCake[i].name === name) {
-                target = dataCake[i].value;
+            for (let i = 0; i < this.pieData.length; i++) {
+              if (this.pieData[i].name === name) {
+                target = this.pieData[i].value;
               }
             }
             let arr = [" " + name + "：" + target];
@@ -319,33 +353,45 @@ export default {
           },
         },
         color: ["#43AAD8", "#C457AD", "#7F5EDC", "#D24B4B"],
+        graphic: {
+          type: "text",
+          left: "19%",
+          top: "48%",
+          style: {
+            text: "数据统计",
+            textAlign: "center",
+            fill: "#fff",
+            fontSize: 14,
+          },
+        },
         series: [
           {
             // name: "数据统计",
             type: "pie",
-            radius: ["55%", "65%"],
+            radius: ["65%", "70%"],
             center: ["25%", "50%"],
             avoidLabelOverlap: false,
             itemStyle: {
-              borderRadius: 2,
+              borderRadius: 5,
               borderColor: "transparent",
-              borderWidth: 16,
+              borderWidth: 6,
+            },
+            // 自定义中心内容的话需要把这个关闭
+            emphasis: {
+              label: {
+                show: false,
+                fontSize: "30",
+                fontWeight: "bold",
+              },
             },
             label: {
               show: false,
               position: "center",
             },
-            emphasis: {
-              label: {
-                show: false,
-                fontSize: "40",
-                fontWeight: "bold",
-              },
-            },
             labelLine: {
               show: false,
             },
-            data: dataCake,
+            data: this.pieData,
           },
         ],
       });
@@ -382,31 +428,33 @@ export default {
 // 信息窗体的样式
 .infoContent {
   color: #fff;
-  border: 1px solid #000;
   border-radius: 6px;
-  background: rgba(0, 0, 0, 0.5);
-  width: 180px;
-  // height: 200px;
-  padding: 20px;
+  background: fade(#000, 33);
+  width: 162px;
   box-sizing: border-box;
-  box-shadow: 0 2px 6px 0 rgba(114, 124, 245, 0.5);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   font-size: 14px;
-  > div {
-    height: 30px;
-    display: flex;
-    justify-content: space-between;
-    #close {
-      color: #556473;
-      cursor: pointer;
-    }
+  .title {
+    width: 100%;
+    height: 34px;
+    line-height: 34px;
+    background-image: url("@/assets/img/paikou_bg.png");
+    background-position: 100%;
+    background-repeat: no-repeat;
+    text-align: center;
   }
   .info {
-    font-size: 12px;
+    width: 98%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #e65656;
+    box-sizing: border-box;
     li {
-      line-height: 20px;
+      height: 26px;
+      line-height: 26px;
     }
   }
 }
@@ -473,6 +521,9 @@ export default {
     width: 100%;
     height: 24vh;
   }
+  .weather {
+    height: 50px;
+  }
 }
 .right {
   position: absolute;
@@ -493,26 +544,27 @@ export default {
       line-height: 36px;
     }
   }
-  .yujing {
+  .title {
     border-top: 1px solid #3385ff;
+    padding: 0 20px;
+    font-size: 14px;
+    text-align: center;
+    color: #bed8ff;
+    font-weight: bold;
+    height: 50px;
+    line-height: 50px;
+    text-shadow: 0px 3px 16px #3385ff;
+  }
+  .yujing {
     color: #fff;
     font-size: 14px;
     padding: 0 20px;
-    .title {
-      text-align: center;
-      color: #bed8ff;
-      font-weight: bold;
-      height: 50px;
-      line-height: 50px;
-      text-shadow: 0px 3px 16px #3385ff;
-    }
     .text {
       line-height: 24px;
       span {
         color: #e65656;
       }
     }
-
     .tip {
       color: #bed8ff;
       font-weight: bold;
@@ -520,12 +572,64 @@ export default {
       line-height: 50px;
       text-shadow: 0px 3px 16px #3385ff;
     }
+    .steps {
+      .step {
+        display: flex;
+        align-items: center;
+        line-height: 26px;
+        position: relative;
+        .line {
+          position: absolute;
+          left: 6px;
+          top: 21px;
+          width: 5px;
+          height: 14px;
+          border-left: 1px solid #666666;
+        }
+        .icon {
+          margin-right: 10px;
+          width: 13px;
+          height: 13px;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .current {
+          border: 1px solid #fc8452;
+          border-radius: 50%;
+          background-color: #fff;
+          > div {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #fc8452;
+          }
+        }
+        .undone {
+          border: 1px solid #999999;
+          border-radius: 50%;
+          background-color: #fff;
+          > div {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #999999;
+          }
+        }
+      }
+    }
+    .person {
+      height: 40px;
+      line-height: 40px;
+    }
   }
 }
 .footer {
   width: 100vw;
   position: absolute;
   bottom: 0;
-  z-index: 8;
+  z-index: 7;
+  pointer-events: none;
 }
 </style>
