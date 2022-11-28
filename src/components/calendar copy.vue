@@ -24,6 +24,7 @@
     <div class="days_area">
       <div class="week" v-for="week in weeks" :key="week">{{ week }}</div>
       <div
+        slot="reference"
         class="day"
         @click="chooseThisDay(day)"
         v-for="(day, index) in days"

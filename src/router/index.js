@@ -14,6 +14,11 @@ const routes = [
         name: 'index',
         component: () => import("@/views/index")
     },
+    {
+        path: '/map',
+        name: 'map',
+        component: () => import("@/views/map/map")
+    },
 ]
 
 
