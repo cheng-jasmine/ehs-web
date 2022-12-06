@@ -1,12 +1,11 @@
-// 级联选择器的单选功能
+// 级联选择器
 <template>
   <div class="cascader">
     <span>{{ label }}：</span>
     <el-cascader
-      :show-all-levels="false"
-      clearable
-      v-model="value"
       :options="options"
+      :props="{ multiple: multiple }"
+      clearable
       @change="handleChange"
     ></el-cascader>
   </div>
@@ -17,22 +16,23 @@ export default {
   props: {
     label: {
       type: String,
-      default: "场景类别",
+      default: "管理场景",
     },
     // 级联选择器的数据
     options: {
       type: Array,
       require: true,
     },
+    // 是否可多选
+    multiple: {
+      type: Boolean,
+      default: true,
+    },
   },
-  data() {
-    return {
-      value: [],
-    };
-  },
+
   methods: {
     handleChange(value) {
-      this.$emit("radioChange", value);
+      this.$emit("cascaderChange", value);
     },
   },
 };

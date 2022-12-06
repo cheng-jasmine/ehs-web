@@ -9,7 +9,13 @@
         <span
           >{{ Item.name }}
           <template v-if="Item.tags">
-            <img v-for="e in Item.tags" :key="e" class="tag" :src="e" alt="" />
+            <img
+              v-for="e in Item.tags"
+              :key="e"
+              class="tag"
+              :src="e"
+              alt="tag"
+            />
           </template>
         </span>
       </template>
@@ -75,7 +81,7 @@ export default {
 }
 .el-menu-item.is-active {
   color: #4385e3;
-  background-color: #eaf3ff;
+  // background-color: #eaf3ff;
 }
 
 .icon_img {
