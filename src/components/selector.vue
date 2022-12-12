@@ -1,7 +1,7 @@
 // 下拉选择器的单/多选功能
 <template>
   <div class="selector">
-    <span>{{ label }}：</span>
+    <span>{{ label }}</span>
     <el-select
       v-model="value"
       placeholder="请选择"
@@ -53,11 +53,21 @@ export default {
 
 <style scoped lang="less">
 .selector {
-  width: 100%;
+  // width: 100%;
   display: flex;
   align-items: center;
+  color: #666666;
+  font-size: 14px;
   .el-select {
-    flex: 1;
+    // flex: 1;
+    width: 320px;
   }
+  > span {
+    margin-right: 11px;
+  }
+}
+/deep/.el-input__inner {
+  height: 36px;
+  line-height: 36px;
 }
 </style>

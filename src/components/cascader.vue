@@ -43,8 +43,14 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
+  color: #666666;
+  font-size: 14px;
   .el-cascader {
     flex: 1;
   }
+}
+/deep/.el-input__inner {
+  height: 36px;
+  line-height: 36px;
 }
 </style>

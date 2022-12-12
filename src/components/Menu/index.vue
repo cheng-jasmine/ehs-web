@@ -37,15 +37,16 @@ export default {
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
 
     menuSelected(e) {
-      console.log(e);
+      // console.log(e);
       this.active = e;
+      this.$emit("menuChange", e);
     },
   },
 };
@@ -53,7 +54,9 @@ export default {
 
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  /* width: 200px; */
-  min-height: 100vh;
+  width: 262px;
+  /* min-height: 100vh; */
+  height: inherit;
+  overflow-y: auto;
 }
 </style>

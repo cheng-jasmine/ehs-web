@@ -19,6 +19,18 @@ const routes = [
         name: 'map',
         component: () => import("@/views/map/map")
     },
+    {
+        // 环保数据库
+        path: '/database',
+        component: () => import("@/views/database/index"),
+        children: [
+            {
+                path: '/',
+                name: 'file',
+                component: () => import("@/views/database/file"),
+            }
+        ]
+    }
 ]
 
 

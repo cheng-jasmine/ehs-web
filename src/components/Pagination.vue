@@ -59,6 +59,7 @@ export default {
       this.$emit("pageChange", +page);
     },
     fromToPage() {
+      // console.log(this.toPage);
       if (
         +this.toPage !== this.current &&
         +this.toPage <= this.pageCount &&
@@ -79,6 +80,10 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   color: #989393;
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
 }
 .left {
   :nth-child(1) {
