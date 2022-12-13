@@ -2,7 +2,7 @@
   <div class="database">
     <Head header="环保数据库" />
     <div class="container">
-      <Menu :menuList="menuList1" @menuChange="menuChange" />
+      <Menu :menuList="menuList" @menuChange="menuChange" />
       <div class="content">
         <router-view></router-view>
       </div>
@@ -26,10 +26,10 @@ export default {
   data() {
     return {
       // 环保数据库
-      menuList1: [
+      menuList: [
         {
           name: "文件柜",
-          value: "/database",
+          value: "/database/file",
           imgs: [
             require("@/assets/img/icon_1_blue.png"),
             require("@/assets/img/icon_1.png"),
@@ -38,7 +38,7 @@ export default {
         },
         {
           name: "环境元素",
-          value: "2",
+          value: "/database/2",
           imgs: [
             require("@/assets/img/environment/icon_2_blue.png"),
             require("@/assets/img/environment/icon_2.png"),
@@ -186,7 +186,7 @@ export default {
   },
   methods: {
     menuChange(val) {
-      console.log(val, this.$route);
+      // console.log(val, this.$route);
       if (val !== this.$route.path) {
         this.$router.push(val);
       }

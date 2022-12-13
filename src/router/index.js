@@ -23,11 +23,17 @@ const routes = [
         // 环保数据库
         path: '/database',
         component: () => import("@/views/database/index"),
+        redirect: '/database/file',
         children: [
             {
-                path: '/',
+                path: 'file',
                 name: 'file',
                 component: () => import("@/views/database/file"),
+            },
+            {
+                path: '2',
+                name: '2',
+                component: () => import("@/views/login"),
             }
         ]
     }

@@ -29,11 +29,16 @@ export default {
   },
   data() {
     return {
-      active: "1",
+      active: "",
     };
   },
   created() {
-    this.active = this.menuList[0].value;
+    this.active = this.$route.path;
+  },
+  watch: {
+    $route(val, old) {
+      this.active = val.path;
+    },
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -45,7 +50,6 @@ export default {
 
     menuSelected(e) {
       // console.log(e);
-      this.active = e;
       this.$emit("menuChange", e);
     },
   },

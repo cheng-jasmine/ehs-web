@@ -30,7 +30,12 @@
     </div>
     <div class="tablelist">
       <SelectTable :headerList="headerList" :tableData="tableData" />
-      <Page :total="total" :current="page" @pageChange="pageChange"></Page>
+      <Page
+        v-if="tableData.length"
+        :total="total"
+        :current="page"
+        @pageChange="pageChange"
+      ></Page>
     </div>
   </div>
 </template>
@@ -48,7 +53,7 @@ export default {
   data() {
     return {
       page: 1,
-      total: 481,
+      total: 50,
       options1: [
         {
           value: "0",
@@ -117,16 +122,16 @@ export default {
         },
       ],
       tableData: [
-        {
-          date: "2016-05-06",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-07",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
+        // {
+        //   date: "2016-05-06",
+        //   name: "王小虎",
+        //   address: "上海市普陀区金沙江路 1518 弄",
+        // },
+        // {
+        //   date: "2016-05-07",
+        //   name: "王小虎",
+        //   address: "上海市普陀区金沙江路 1518 弄",
+        // },
       ],
     };
   },
